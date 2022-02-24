@@ -1,7 +1,6 @@
 # InfluxDB reverse proxy
 
-The proxy check incoming InfluxQL SELECT queries and will proxy them to the given Influx database if the data source (measurement), extracted form the FROM field of the query is allowed.
-
+The proxy checks incoming InfluxQL SELECT queries and will forward them to the given Influx database if the data source (measurement), extracted from the query, is in the given allowed list of measurements.
 All other queries will return an error to the client.
 
 # License
