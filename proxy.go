@@ -42,7 +42,7 @@ func main() {
 		domain       = flag.String("domain", "", "Domain used for getting LetsEncrypt certificate.")
 		cacheDir     = flag.String("cache", ".", "Directory for storing LetsEncrypt certificates.")
 		influxAddr   = flag.String("addr", "http://localhost:8086", "InfluxDB server address (protocol://host:port)")
-		measurements = flag.String("measurements", "", "Comma seperated list of  allowed measurements.")
+		measurements = flag.String("measurements", "", "Comma separated list of  allowed measurements.")
 	)
 	flag.Parse()
 
