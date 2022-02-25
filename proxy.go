@@ -37,25 +37,26 @@ func main() {
 	log.SetFlags(0)
 
 	var (
-		listenAddr   = flag.String("listen", "localhost:8080", "HTTP listen:port address.")
-		https        = flag.Bool("https", false, "Serve HTTPS.")
-		domain       = flag.String("domain", "", "Domain used for getting LetsEncrypt certificate.")
-		cacheDir     = flag.String("cache", ".", "Directory for storing LetsEncrypt certificates.")
-		influxAddr   = flag.String("addr", "http://localhost:8086", "InfluxDB server address (protocol://host:port)")
-		measurements = flag.String("measurements", "", "Comma separated list of  allowed measurements.")
+		listenAddr = flag.String("listen", "localhost:8080", "HTTP listen:port address.")
+		https      = flag.Bool("https", false, "Serve HTTPS.")
+		domain     = flag.String("domain", "", "Domain used for getting LetsEncrypt certificate. (Comma seperated list)")
+		cacheDir   = flag.String("cache", ".", "Directory for storing LetsEncrypt certificates.")
+		influxAddr = flag.String("addr", "http://localhost:8086", "InfluxDB server address (protocol://host:port)")
+		sources    = flag.String("sources", "", "Comma separated list of  allowed measurements.")
 	)
 	flag.Parse()
 
-	if *measurements == "" {
-		log.Fatal("at least one measurement is required")
+	if *sources == "" {
+		log.Fatal("at least one source is required")
 	}
 
-	p, err := NewProxy(*influxAddr, strings.Split(*measurements, ","))
+	p, err := NewProxy(*influxAddr, strings.Split(*sources, ","))
 	if err != nil {
 		log.Fatal(err)
 	}
 	if *https && *domain != "" {
-		log.Fatal(serveAutoCert(*listenAddr, p, *cacheDir, *domain))
+		domains := strings.Split(*domain, ",")
+		log.Fatal(serveAutoCert(*listenAddr, p, *cacheDir, domains...))
 	}
 
 	log.Printf("listening on %s\n", *listenAddr)
