@@ -89,6 +89,16 @@ func TestAllowed(t *testing.T) {
 			[]string{"m0", "m1", "m2"},
 			ErrQueryNotAllowed,
 		},
+		"mixedCasesAllowed": {
+			"select a FROM m0",
+			[]string{"M0", "m1", "M2"},
+			nil,
+		},
+		"mixedCasesFrom": {
+			"select a FROM M1",
+			[]string{"M0", "m1", "M2"},
+			nil,
+		},
 	}
 
 	for name, tc := range testCases {

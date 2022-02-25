@@ -178,7 +178,7 @@ func allowed(q string, allowed []string) error {
 
 func lookup(allowed []string, name string) bool {
 	for _, item := range allowed {
-		if item == name {
+		if strings.EqualFold(item, name) {
 			return true
 		}
 	}
