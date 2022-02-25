@@ -139,12 +139,14 @@ func (p *Proxy) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		}
 
 		p.proxy.ServeHTTP(w, r)
+		return
 
 	case "/debug/version":
 		w.Header().Set("Content-Type", "text/plain")
 		w.Write([]byte(version))
 		w.Write([]byte("\n"))
 		w.Write([]byte(commit))
+		return
 	}
 }
 
@@ -174,9 +176,6 @@ func allowed(q string, allowed []string) error {
 	return nil
 }
 
-// lookup takes a slice and looks for an element in it. If found it will return
-// it's key, otherwise it will return -1 and a bool of false. Queries with
-// regular expressions are not allowed.
 func lookup(allowed []string, name string) bool {
 	for _, item := range allowed {
 		if item == name {
