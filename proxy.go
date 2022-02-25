@@ -39,7 +39,7 @@ func main() {
 	var (
 		listenAddr = flag.String("listen", "localhost:8080", "HTTP listen:port address.")
 		https      = flag.Bool("https", false, "Serve HTTPS.")
-		domain     = flag.String("domain", "", "Domain used for getting LetsEncrypt certificate. (Comma seperated list)")
+		domain     = flag.String("domain", "", "Domain used for getting LetsEncrypt certificate. (Comma separated list)")
 		cacheDir   = flag.String("cache", ".", "Directory for storing LetsEncrypt certificates.")
 		influxAddr = flag.String("addr", "http://localhost:8086", "InfluxDB server address (protocol://host:port)")
 		sources    = flag.String("sources", "", "Comma separated list of  allowed measurements.")
