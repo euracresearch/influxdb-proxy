@@ -34,4 +34,4 @@ jobs:
             "browser_sha=${{ github.sha }}"
           context: .
           push: true
-          tags: ghcr.io/euracresearch/influx-proxy:${{ github.ref_name }}
+          tags: ghcr.io/euracresearch/influxdb-proxy:${{ github.ref_name }}
