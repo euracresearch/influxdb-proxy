@@ -5,4 +5,4 @@ All other queries will return an error to the client.
 
 # License
 
-The library is distributed under the BSD-style license found in [LICENSE](./LICENSE) file.
+The application is distributed under the BSD-style license found in [LICENSE](./LICENSE) file.
