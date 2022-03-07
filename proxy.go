@@ -25,7 +25,10 @@ var (
 	// Build version & commit, injected during build.
 	version string
 	commit  string
+)
 
+// influxdb-proxy errors.
+var (
 	ErrQueryEmpty        = errors.New("empty query not allowed")
 	ErrQueryNotAllowed   = errors.New("query not allowed")
 	ErrQueryNotSupported = errors.New("query is not supported")
