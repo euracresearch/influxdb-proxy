@@ -161,19 +161,22 @@ func allowed(q string, allowed []string) error {
 		return ErrQueryEmpty
 	}
 
-	stmt, err := influxql.NewParser(strings.NewReader(q)).ParseStatement()
+	query, err := influxql.NewParser(strings.NewReader(q)).ParseQuery()
 	if err != nil {
 		return fmt.Errorf("error parsing InfluxQL statement %w", err)
 	}
 
-	if !strings.HasPrefix(strings.ToLower(stmt.String()), "select") {
-		return ErrQueryNotAllowed
-	}
-
-	selectStmt := stmt.(*influxql.SelectStatement)
-	for _, m := range selectStmt.Sources.Measurements() {
-		if !lookup(allowed, m.Name) {
+	// A query can contain multiple statements.
+	for _, stmt := range query.Statements {
+		if !strings.HasPrefix(strings.ToLower(stmt.String()), "select") {
 			return ErrQueryNotAllowed
+		}
+
+		selectStmt := stmt.(*influxql.SelectStatement)
+		for _, m := range selectStmt.Sources.Measurements() {
+			if !lookup(allowed, m.Name) {
+				return ErrQueryNotAllowed
+			}
 		}
 	}
 

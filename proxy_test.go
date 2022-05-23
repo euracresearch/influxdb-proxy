@@ -99,6 +99,26 @@ func TestAllowed(t *testing.T) {
 			[]string{"M0", "m1", "M2"},
 			nil,
 		},
+		"multipleQueriesFirstOK": {
+			"select a FROM M1;SELECT b FROM M3",
+			[]string{"M0", "m1", "M2"},
+			ErrQueryNotAllowed,
+		},
+		"multipleQueriesFirstNotOk": {
+			"select b FROM M4;SELECT a FROM M1",
+			[]string{"M0", "m1", "M2"},
+			ErrQueryNotAllowed,
+		},
+		"multipleQueriesNotOK": {
+			"select a FROM M4;SELECT b FROM M3;select x from M5;",
+			[]string{"M0", "m1", "M2"},
+			ErrQueryNotAllowed,
+		},
+		"multipleQueriesOK": {
+			"select m1 FROM M1;SELECT m0 FROM M0;select m2 from M2;",
+			[]string{"M0", "m1", "M2"},
+			nil,
+		},
 	}
 
 	for name, tc := range testCases {
