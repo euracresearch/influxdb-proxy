@@ -131,42 +131,6 @@ func TestAllowed(t *testing.T) {
 	}
 }
 
-func TestHTTPMethods(t *testing.T) {
-	testCases := []struct {
-		method string
-		want   int
-	}{
-		{http.MethodHead, http.StatusMethodNotAllowed},
-		{http.MethodPut, http.StatusMethodNotAllowed},
-		{http.MethodPatch, http.StatusMethodNotAllowed},
-		{http.MethodDelete, http.StatusMethodNotAllowed},
-		{http.MethodConnect, http.StatusMethodNotAllowed},
-		{http.MethodOptions, http.StatusMethodNotAllowed},
-		{http.MethodTrace, http.StatusMethodNotAllowed},
-		{http.MethodGet, http.StatusNotFound},
-		{http.MethodPost, http.StatusNotFound},
-	}
-
-	for id, tc := range testCases {
-		t.Run(fmt.Sprint(id), func(t *testing.T) {
-			req, err := http.NewRequest(tc.method, testProxy.URL, nil)
-			if err != nil {
-				t.Fatalf("unexpected error: %v", err)
-			}
-
-			got, err := testClient.Do(req)
-			if err != nil {
-				t.Fatalf("unexpected error: %v", err)
-			}
-
-			if got.StatusCode != tc.want {
-				t.Fatalf("got %s, want %d", got.Status, tc.want)
-			}
-		})
-	}
-
-}
-
 func TestDefaultEndpoint(t *testing.T) {
 	want := http.StatusNotFound
 

@@ -117,11 +117,6 @@ func NewProxy(addr string, sources []string) (*Proxy, error) {
 
 // ServeHTTP satisfies the http.Handler interface for a server.
 func (p *Proxy) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	if r.Method != http.MethodGet && r.Method != http.MethodPost {
-		reportError(w, ErrMethodNotAllowed, http.StatusMethodNotAllowed)
-		return
-	}
-
 	switch r.URL.Path {
 	default:
 		http.Error(w, "not found", http.StatusNotFound)
